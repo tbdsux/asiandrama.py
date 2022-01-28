@@ -1,2 +1,2 @@
 [python]
-path = "/home/theboringdude/.local/share/pdm/venv/bin/python"
+path = "/usr/bin/python3"
