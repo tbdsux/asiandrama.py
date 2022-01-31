@@ -1,7 +1,7 @@
 from typing import List
 from smaxpy import Smax
 from urllib.parse import urljoin
-from watchasian.drama import WatchAsianDrama
+from watchasian.drama import WatchAsianDrama, WatchAsianDramaEpisode
 
 from watchasian.search import WatchAsianSearchResult
 
@@ -40,7 +40,7 @@ class WatchAsian:
     def fetch_uri(self, uri: str) -> WatchAsianDrama:
         url = urljoin(self.__website, uri)
 
-        client = self._get_client(url)
+        client = self._get_client(uri)
         query = client.find("div", class_="content").find("div", class_="content-left")
 
         _info = query.find("div", class_="info")
@@ -67,3 +67,18 @@ class WatchAsian:
             eps.append(_ep)
 
         return WatchAsianDrama(url, _title, _image, eps)
+
+    def get_episode(self, uri: str) -> WatchAsianDramaEpisode:
+        url = urljoin(self.__website, uri)
+
+        client = self._get_client(uri)
+        query = client.find("div", class_="block watch-drama")
+
+        _title = query.find("h1").text.strip()
+        _category = query.find("div", class_="category").find("a").text.strip()
+        _download = query.find("li", class_="download").find("a")["href"]
+
+        if not _download.startswith("https://"):
+            _download = "https:" + _download
+
+        return WatchAsianDramaEpisode(url, _title, _category, _download)
