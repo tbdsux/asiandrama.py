@@ -10,8 +10,8 @@ class WatchAsian:
     def __init__(self, website: str):
         self.__website = website
 
-    def _get_client(self, uri: str) -> Smax:
-        return Smax(urljoin(self.__website, uri))
+    def _get_client(self, url: str) -> Smax:
+        return Smax(urljoin(self.__website, url))
 
     def search(self, query: str) -> List[WatchAsianSearchResult]:
         """Search for dramas, shows or movies.
@@ -37,10 +37,22 @@ class WatchAsian:
 
         return data
 
-    def fetch_uri(self, uri: str) -> WatchAsianDrama:
-        url = urljoin(self.__website, uri)
+    def fetch_uri(self, url: str) -> WatchAsianDrama:
+        """Fetch dramas, shows or movies with their url.
 
-        client = self._get_client(uri)
+        Do not include the base watchasian url. For example, only set
+        `/drama-url-in-here` like so.
+
+        Args:
+            url (str): url of drama / show / movie
+
+        Returns:
+            WatchAsianDrama
+        """
+
+        final_url = urljoin(self.__website, url)
+
+        client = self._get_client(url)
         query = client.find("div", class_="content").find("div", class_="content-left")
 
         _info = query.find("div", class_="info")
@@ -66,12 +78,24 @@ class WatchAsian:
 
             eps.append(_ep)
 
-        return WatchAsianDrama(url, _title, _image, eps)
+        return WatchAsianDrama(final_url, _title, _image, eps)
 
-    def get_episode(self, uri: str) -> WatchAsianDramaEpisode:
-        url = urljoin(self.__website, uri)
+    def get_episode(self, url: str) -> WatchAsianDramaEpisode:
+        """Fetch a drama, show or movie episode with its url.
 
-        client = self._get_client(uri)
+        Do not include the base watchasian url. For example, only set
+        `/drama-url-in-here/episode-1.html` like so.
+
+        Args:
+            url (str): drama / show / movie episode url
+
+        Returns:
+            WatchAsianDramaEpisode
+        """
+
+        final_url = urljoin(self.__website, url)
+
+        client = self._get_client(url)
         query = client.find("div", class_="block watch-drama")
 
         _title = query.find("h1").text.strip()
@@ -81,4 +105,4 @@ class WatchAsian:
         if not _download.startswith("https://"):
             _download = "https:" + _download
 
-        return WatchAsianDramaEpisode(url, _title, _category, _download)
+        return WatchAsianDramaEpisode(final_url, _title, _category, _download)
