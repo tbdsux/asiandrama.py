@@ -13,7 +13,7 @@ class WatchAsianSearchResult:
 
     def json(self) -> Dict:
         """
-        Return the JSON dictionary response.
+        Return as JSON Dictionary Response.
         """
 
         return {
