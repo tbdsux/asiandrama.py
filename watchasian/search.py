@@ -1,9 +1,10 @@
 from typing import Dict
-
 from urllib.parse import urljoin
 
+from base.response import ScrapedResponse
 
-class WatchAsianSearchResult:
+
+class WatchAsianSearchResult(ScrapedResponse):
     def __init__(self, website: str, link: str, image: str, title: str) -> None:
         self.website = website
         self.uri = link
@@ -23,6 +24,3 @@ class WatchAsianSearchResult:
             "uri": self.uri,
             "website": self.website,
         }
-
-    def __repr__(self) -> str:
-        return str(self.json())

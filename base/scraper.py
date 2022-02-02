@@ -13,3 +13,15 @@ class BaseAsianDramaScraper:
         """
 
         return Smax(urljoin(self.website, url))
+
+    def search(self, query: str):
+        # function will be overwritten
+        pass
+
+    def fetch_uri(self, url: str):
+        # function will be overwriten
+        pass
+
+    def get_episode(self, url: str):
+        # function will be overwritten
+        pass
