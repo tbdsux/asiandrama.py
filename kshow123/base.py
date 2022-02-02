@@ -1,13 +1,9 @@
-from smaxpy import Smax
-from urllib.parse import urljoin
+from base.scraper import BaseAsianDramaScraper
 
 
-class KShow123:
+class KShow123(BaseAsianDramaScraper):
     def __init__(self) -> None:
-        self.__website = "http://kshow123.net/"
-
-    def _get_client(self, url: str) -> Smax:
-        return Smax(urljoin(self.__website, url))
+        super().__init__("http://kshow123.net/")
 
     def search(self, query: str):
         query = query.replace(" ", "-")

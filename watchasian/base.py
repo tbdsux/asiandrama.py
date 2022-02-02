@@ -1,17 +1,15 @@
 from typing import List
-from smaxpy import Smax
 from urllib.parse import urljoin
-from watchasian.drama import WatchAsianDrama, WatchAsianDramaEpisode
 
-from watchasian.search import WatchAsianSearchResult
+from base.scraper import BaseAsianDramaScraper
+
+from .drama import WatchAsianDrama, WatchAsianDramaEpisode
+from .search import WatchAsianSearchResult
 
 
-class WatchAsian:
+class WatchAsian(BaseAsianDramaScraper):
     def __init__(self, website: str):
-        self.__website = website
-
-    def _get_client(self, url: str) -> Smax:
-        return Smax(urljoin(self.__website, url))
+        super().__init__(website)
 
     def search(self, query: str) -> List[WatchAsianSearchResult]:
         """Search for dramas, shows or movies.
@@ -33,7 +31,7 @@ class WatchAsian:
             image = i.find("img")["data-original"]
             title = i.find("h3").text.strip()
 
-            data.append(WatchAsianSearchResult(self.__website, link, image, title))
+            data.append(WatchAsianSearchResult(self.website, link, image, title))
 
         return data
 
@@ -50,7 +48,7 @@ class WatchAsian:
             WatchAsianDrama
         """
 
-        final_url = urljoin(self.__website, url)
+        final_url = urljoin(self.website, url)
 
         client = self._get_client(url)
         query = client.find("div", class_="content").find("div", class_="content-left")
@@ -74,7 +72,7 @@ class WatchAsian:
             _ep["title"] = i.find("h3").text.strip()
             _ep["timestamp"] = i.find("span", class_="time").text.strip()
             _ep["sub_type"] = i.find("span", class_="type").text.strip()
-            _ep["link"] = urljoin(self.__website, i.find("a")["href"])
+            _ep["link"] = urljoin(self.website, i.find("a")["href"])
 
             eps.append(_ep)
 
@@ -93,7 +91,7 @@ class WatchAsian:
             WatchAsianDramaEpisode
         """
 
-        final_url = urljoin(self.__website, url)
+        final_url = urljoin(self.website, url)
 
         client = self._get_client(url)
         query = client.find("div", class_="block watch-drama")
