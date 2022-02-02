@@ -1,8 +1,10 @@
+import json
+import re
 from urllib.parse import urljoin
 
 from base.scraper import BaseAsianDramaScraper
 from kshow123.search import KShowSearchResult
-from kshow123.show import KShowShow
+from kshow123.show import KShowShow, KShowShowEpisode
 
 
 class KShow123(BaseAsianDramaScraper):
@@ -77,3 +79,38 @@ class KShow123(BaseAsianDramaScraper):
             eps.append(_ep)
 
         return KShowShow(final_url, _title, _desc, _img, eps)
+
+    def get_episode(self, url: str) -> KShowShowEpisode:
+        """Fetch a show episode by its url.
+
+        Do not include the base watchasian url. For example, only set
+        `/drama-url-in-here/episode-1.html` like so.
+
+        Args:
+            url (str): show episode url
+
+        Returns:
+            KShowShowEpisode
+        """
+
+        final_url = urljoin(self.website, url)
+
+        client = self._get_client(url)
+        query = client.find("div", id="player")
+
+        title = query.find("h1").text.strip()
+        downloads = []
+
+        script = None
+        for i in client.find_all("script"):
+            if "videoJson" in i.text:
+                script = i
+
+        rem = re.search("videoJson = (.*?);", script.string)
+        if rem:
+            t = rem.group(1)
+            t = t.replace("\\", "").replace("'", "")
+
+            downloads = json.loads(t)
+
+        return KShowShowEpisode(final_url, title, downloads)
