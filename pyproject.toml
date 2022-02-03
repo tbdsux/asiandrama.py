@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "watchasian.py"
-version = "0.1.0"
-description = ""
+name = "asiandrama"
+version = "0.0.1"
+description = "Korean shows and drama websites scraper library."
 authors = ["TheBoringDude <iamcoderx@gmail.com>"]
 
 [tool.poetry.dependencies]
