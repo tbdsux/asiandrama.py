@@ -1,5 +1,4 @@
-from watchasian import WatchAsian
-
+from asiandrama import WatchAsian
 
 w = WatchAsian("https://watchasian.sh/")
 
