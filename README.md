@@ -1,6 +1,6 @@
 # asiandrama.py
 
-Korean shows and drama websites scraper library.
+Asian shows and drama websites scraper library.
 
 ## Install
 
@@ -21,7 +21,7 @@ pip install -m asiandrama
   - Search drama, show / movies
 
     ```py
-    from watchasian import WatchAsian
+    from asiandrama import WatchAsian
 
     wa = WatchAsian("https://watchasian.sh")
     search = wa.search("outrun")
@@ -32,7 +32,7 @@ pip install -m asiandrama
   - Get drama, show / movie page
 
     ```py
-    from watchasian import WatchAsian
+    from asiandrama import WatchAsian
 
     wa = WatchAsian("https://watchasian.sh")
     drama = wa.fetch_uri("/drama-detail/outrun-by-running-man-2021")
@@ -41,18 +41,18 @@ pip install -m asiandrama
   - Get drama, show / movie episode page
 
     ```py
-    from watchasian import WatchAsian
+    from asiandrama import WatchAsian
 
     wa = WatchAsian("https://watchasian.sh")
     ep = wa.get_episode("/outrun-by-running-man-2021-episode-9.html")
     ```
 
-- KShow
+- KShow (`https://kshow123.net/`)
 
   - Search show
 
     ```py
-    from kshow123 import KShow123
+    from asiandrama import KShow123
 
     ks = KShow123()
     ks.search("running")
@@ -61,7 +61,7 @@ pip install -m asiandrama
   - Get show page
 
     ```py
-    from kshow123 import KShow123
+    from asiandrama import KShow123
 
     ks = KShow123()
     show = ks.fetch_uri("/show/running-man-i0/")
@@ -70,7 +70,7 @@ pip install -m asiandrama
   - Get show episode page
 
     ```py
-    from kshow123 import KShow123
+    from asiandrama import KShow123
 
     ks = KShow123()
     ep = ks.get_episode("/show/running-man/episode-587.html")
